@@ -30,11 +30,11 @@
 ├── Experience_log.txt
 ├── README.md
 ├── def_check_voltage.py
-├── dict_practice01.py
-├── dict_practice02.py
 ├── list_practice.py
-├── string_practice01.py
-└── string_practice02.py
+├── log_parser_basic.py
+├── log_parser_basic_02.py
+├── test_result_parser.py
+└── test_result_parser_02.py
 （更新中……有时候会忘记……）
 
 ## 实践内容
