@@ -1,0 +1,29 @@
+2026-7-22 21:12:
+看状态：
+git status
+
+准备提交：
+git add .
+
+保存记录：
+git commit -m "说明"
+
+上传：
+git push
+
+2026-7-25 20:36
+        error = result.get("ERROR")
+
+        if error:
+            error_count[error] = error_count.get(error,0)+1
+
+        这段代码，难点是error_count.get(error,0)，第一次error_count为空，
+        所以：
+        error_count.get(error,0)=0
+        error_count[error] = 0+1 = 1
+
+        第二次如果同样的error：
+        error_count.get(error,0)就为1了。
+        error_count[error] = 1+1 = 2
+
+        if error:的意思是，如果error的值不为空。
