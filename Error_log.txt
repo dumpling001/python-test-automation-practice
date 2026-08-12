@@ -1,4 +1,1 @@
-log1 = "TEST=POWER RESULT=FAIL ERROR=Voltage_High"
-log2 = "TEST=POWER RESULT=FAIL"
-log3 = "TEST=POWER ERROR=Voltage_High"
-log4 = "RESULT=FAIL ERROR=Voltage_High"
+TEST=POWER RESULT=FAIL ERROR=Voltage_High
