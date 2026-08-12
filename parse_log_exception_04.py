@@ -25,13 +25,15 @@ def parse_log(log, keywords):
             value = log.find(keywords[i])
 
             keyword_position[key] = value
-    #print(keyword_position)
+
 
     for i in range(length):
-        start_index = log.find(keywords[i])
-        #if log.find(keywords[i]) != -1:
-        if start_index != -1:
+        if keywords[i] in keyword_position.keys():
+            start_index = keyword_position[keywords[i]]
             #start_index = log.find(keywords[i])
+            #if log.find(keywords[i]) != -1:
+            #if start_index != -1:
+                #start_index = log.find(keywords[i])
             end_index = pick_next_position(keyword_position, keywords[i])
             if end_index is not None:
                 value = log[start_index + len(keywords[i]):end_index].strip()
