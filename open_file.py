@@ -11,4 +11,4 @@
 #with open("Error_log.txt", "r", "encoding=utf-8") as f:
 with open("Error_log.txt", "r", encoding="utf-8") as f:
     for line in f:
-        print(line)
+        print(line.strip())
