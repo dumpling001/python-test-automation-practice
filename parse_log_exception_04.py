@@ -4,9 +4,10 @@ log3 = "TEST=POWER ERROR=Voltage_High"
 log4 = "RESULT=FAIL ERROR=Voltage_High"
 
 keywords = ["TEST=", "RESULT=", "ERROR="]
-#keyword_position = {}
-#length = len(keywords)
-#results = {}
+
+# 代码重构：
+# 不重复 find()，复用 keyword_position
+# 不再用 i，直接 for keyword in keywords
 
 def pick_next_position(keyword_position, keyword):
     next_positon = min(
@@ -19,27 +20,20 @@ def parse_log(log, keywords):
     keyword_position = {}
     results = {}
     length = len(keywords)
-    for i in range(length):
-        if log.find(keywords[i]) != -1:
-            key = keywords[i]
-            value = log.find(keywords[i])
-
-            keyword_position[key] = value
+    for keyword in keywords:
+        if log.find(keyword) != -1:
+            keyword_position[keyword] = log.find(keyword)
 
 
-    for i in range(length):
-        if keywords[i] in keyword_position.keys():
-            start_index = keyword_position[keywords[i]]
-            #start_index = log.find(keywords[i])
-            #if log.find(keywords[i]) != -1:
-            #if start_index != -1:
-                #start_index = log.find(keywords[i])
-            end_index = pick_next_position(keyword_position, keywords[i])
+    for keyword in keywords:
+        if keyword in keyword_position.keys():
+            start_index = keyword_position[keyword]
+            end_index = pick_next_position(keyword_position, keyword)
             if end_index is not None:
-                value = log[start_index + len(keywords[i]):end_index].strip()
+                value = log[start_index + len(keyword):end_index].strip()
             else:
-                value = log[start_index + len(keywords[i]):].strip()
-            results[keywords[i].replace("=","")] = value
+                value = log[start_index + len(keyword):].strip()
+            results[keyword.replace("=","")] = value
     return results
 
 results1 = parse_log(log1, keywords)
