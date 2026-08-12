@@ -1,30 +1,4 @@
-字典取值是这样取的：result["status"]
-
-2026.7.22
-我现在是在原来的旧目录，装过playwright，但是当前的虚拟环境应该是另一个项目的，没有playwright，如何切过去:
-1. 先退出当前虚拟环境
-deactivate
-
-2. 确认你现在在旧项目目录
-pwd
-ls
-
-3. 激活这个旧项目自己的 venv
-source venv/bin/activate
-
-4. 确认切换成功
-which python
-
-5. 再检查 playwright
-python -m pip show playwright
-
-如果你关闭终端窗口，下次重新打开，venv 不会自动恢复。
-
-每次进入项目：
-
-cd 项目目录
-source venv/bin/activate
-
-这是正常流程。
-
-你这个情况其实非常典型：以前项目能跑 → 搁置几天 → 切目录 → 发现环境混乱。以后你每个项目单独一个 venv，就不会互相影响。
+log1 = "TEST=POWER RESULT=FAIL ERROR=Voltage_High"
+log2 = "TEST=POWER RESULT=FAIL"
+log3 = "TEST=POWER ERROR=Voltage_High"
+log4 = "RESULT=FAIL ERROR=Voltage_High"
