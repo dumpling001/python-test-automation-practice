@@ -33,8 +33,12 @@ def parse_log(log, keywords):
     return results
 
 with open("Error_log.txt", "r", encoding="utf-8") as f:
+    results = []
     for log in f:
         log = log.strip()
         if log:
             result = parse_log(log, keywords)
-            print(result)
+            results.append(result)
+    count = len(results)
+    print(results)
+    print("一共有"+str(count)+"条日志被解析。")

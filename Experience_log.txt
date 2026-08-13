@@ -27,3 +27,9 @@ git push
         error_count[error] = 1+1 = 2
 
         if error:的意思是，如果error的值不为空。
+
+2026-8-13 20:48
+
+dict = {}
+
+这个不等于None，{}有但是为空，所以判断条件应该写if dict：而不是if dict is not None:
