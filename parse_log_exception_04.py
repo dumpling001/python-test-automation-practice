@@ -1,11 +1,3 @@
-# log1 = "TEST=POWER RESULT=FAIL ERROR=Voltage_High"
-# log2 = "TEST=POWER RESULT=FAIL"
-# log3 = "TEST=POWER ERROR=Voltage_High"
-# log4 = "RESULT=FAIL ERROR=Voltage_High"
-
-with open("Error_log.txt", "r", encoding="utf-8") as f:
-    log = f.read()
-
 keywords = ["TEST=", "RESULT=", "ERROR="]
 
 # 代码重构：
@@ -40,13 +32,9 @@ def parse_log(log, keywords):
             results[keyword.replace("=","")] = value
     return results
 
-results = parse_log(log, keywords)
-print(results)
-# results1 = parse_log(log1, keywords)
-# results2 = parse_log(log2, keywords)
-# results3 = parse_log(log3, keywords)
-# results4 = parse_log(log4, keywords)
-# print(results1)
-# print(results2)
-# print(results3)
-# print(results4)
+with open("Error_log.txt", "r", encoding="utf-8") as f:
+    for log in f:
+        log = log.strip()
+        if log:
+            result = parse_log(log, keywords)
+            print(result)
