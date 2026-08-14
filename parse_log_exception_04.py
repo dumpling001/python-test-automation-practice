@@ -32,29 +32,32 @@ def parse_log(log, keywords):
             results[keyword.replace("=","")] = value
     return results
 
-with open("Error_log.txt", "r", encoding="utf-8") as f:
-    results = []
-    for log in f:
-        log = log.strip()
-        if log:
-            result = parse_log(log, keywords)
-            results.append(result)
-    count = len(results)
-    print(results)
-    
+try:
+    with open("Error_log.txt", "r", encoding="utf-8") as f:
+        results = []
+        for log in f:
+            log = log.strip()
+            if log:
+                result = parse_log(log, keywords)
+                results.append(result)
+        count = len(results)
+        print(results)
+        
 
+    fail_count = 0
+    succ_count = 0
+    for result in results:
+        #print(result)
+        if "RESULT" in result:
+            if result["RESULT"] == "FAIL":
+                fail_count += 1
+            elif result["RESULT"] == "PASS":
+                succ_count += 1
 
-fail_count = 0
-succ_count = 0
-for result in results:
-    #print(result)
-    if "RESULT" in result:
-        if result["RESULT"] == "FAIL":
-            fail_count += 1
-        elif result["RESULT"] == "PASS":
-            succ_count += 1
+    print("总数："+str(count))
+    print("FAIL:"+str(fail_count))
+    print("PASS:"+str(succ_count))
+    print("PASS比例："+str(succ_count/count*100 if count != 0 else 0)+"%")
 
-print("总数："+str(count))
-print("FAIL:"+str(fail_count))
-print("PASS:"+str(succ_count))
-print("PASS比例："+str(succ_count/count*100 if count != 0 else 0)+"%")
+except FileNotFoundError:
+    print("文件不存在")
