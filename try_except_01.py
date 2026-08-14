@@ -1,4 +1,4 @@
-log = "TEST=POWER VOLTAGE=abc"
+log = "TEST=POWER VOLTAGE=220"
 
 keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE="]
 
@@ -34,5 +34,6 @@ print(results)
 
 try:
  voltage = int(results["VOLTAGE"])
+ print(voltage, type(voltage))
 except ValueError:
     print("格式错误")
