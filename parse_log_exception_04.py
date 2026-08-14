@@ -41,4 +41,20 @@ with open("Error_log.txt", "r", encoding="utf-8") as f:
             results.append(result)
     count = len(results)
     print(results)
-    print("一共有"+str(count)+"条日志被解析。")
+    
+
+
+fail_count = 0
+succ_count = 0
+for result in results:
+    #print(result)
+    if "RESULT" in result:
+        if result["RESULT"] == "FAIL":
+            fail_count += 1
+        elif result["RESULT"] == "PASS":
+            succ_count += 1
+
+print("总数："+str(count))
+print("FAIL:"+str(fail_count))
+print("PASS:"+str(succ_count))
+print("PASS比例："+str(succ_count/count*100 if count != 0 else 0)+"%")
