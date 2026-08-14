@@ -1,4 +1,8 @@
-log = "TEST=POWER VOLTAGE=220"
+log1 = "TEST=POWER"
+log2 = "TEST=POWER VOLTAGE=220"
+log3 = "TEST=POWER VOLTAGE=220V"
+log4 = "TEST=POWER VOLTAGE="
+log5 = "TEST=POWER VOLTAGE=abc"
 
 keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE="]
 
@@ -29,11 +33,18 @@ def parse_log(log, keywords):
             results[keyword.replace("=","")] = value
     return results
 
-results = parse_log(log, keywords)
-print(results)
+def check_voltage(log):
+    results = parse_log(log, keywords)
+    try:
+        voltage = int(results["VOLTAGE"])
+        print(voltage, type(voltage))
+    except ValueError:
+        print("格式错误")
+    except KeyError:
+        print("没有电压数据")
 
-try:
- voltage = int(results["VOLTAGE"])
- print(voltage, type(voltage))
-except ValueError:
-    print("格式错误")
+check_voltage(log1)
+check_voltage(log2)
+check_voltage(log3)
+check_voltage(log4)
+check_voltage(log5)
