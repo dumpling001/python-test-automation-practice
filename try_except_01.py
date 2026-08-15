@@ -36,8 +36,12 @@ def parse_log(log, keywords):
 def check_voltage(log):
     try:
         results = parse_log(log, keywords)
-        voltage = int(results["VOLTAGE"])
-        print(voltage, type(voltage))
+        voltage = results["VOLTAGE"]
+        if voltage == "":
+            print("电压数据为空")
+        else:
+            voltage = int(voltage)
+        
     except ValueError:
         print("格式错误")
     except KeyError:
