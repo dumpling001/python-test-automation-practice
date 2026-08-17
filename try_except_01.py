@@ -43,20 +43,49 @@ def check_voltage(log):
         results = parse_log(log, keywords)
         voltage = results["VOLTAGE"]
         if voltage == "":
-            return "电压数据为空"
+            data = {
+                "status": "FAIL",
+                "voltage": None,
+                "message": "电压数据为空"
+                    }
+            return data
         else:
             voltage = int(voltage)
             if voltage > 240 or voltage < 200:
-                return "电压异常"
+                data = {
+                    "status": "FAIL",
+                    "voltage": voltage,
+                    "message": "电压异常"
+                        }
+                return data
             else:
-                return "电压正常"
-        
+                data = {
+                    "status": "PASS",
+                    "voltage": voltage,
+                    "message": "电压正常"
+                }
+                return data        
     except ValueError:
-        return "电压格式错误"
+                data = {
+                    "status": "FAIL",
+                    "voltage": None,
+                    "message": "电压格式错误"
+                }
+                return data
     except KeyError:
-        return "没有电压数据"
+                data = {
+                    "status": "FAIL",
+                    "voltage": None,
+                    "message": "没有电压数据"
+                }        
+                return data
     except Exception:
-        return "出现其他日志解析错误"
+                data = {
+                    "status": "FAIL",
+                    "voltage": None,
+                    "message": "出现其他日志解析错误"
+                        }
+                return data        
 
 result = check_voltage(log1)
 print(result)
