@@ -43,28 +43,40 @@ def check_voltage(log):
         results = parse_log(log, keywords)
         voltage = results["VOLTAGE"]
         if voltage == "":
-            print("电压数据为空")
+            return "电压数据为空"
         else:
             voltage = int(voltage)
             if voltage > 240 or voltage < 200:
-                print("电压异常")
+                return "电压异常"
             else:
-                print("电压正常")
+                return "电压正常"
         
     except ValueError:
-        print("格式错误")
+        return "电压格式错误"
     except KeyError:
-        print("没有电压数据")
+        return "没有电压数据"
     except Exception:
-        print("出现其他日志解析错误")
+        return "出现其他日志解析错误"
 
-check_voltage(log1)
-check_voltage(log2)
-check_voltage(log3)
-check_voltage(log4)
-check_voltage(log5)
-check_voltage(log6)
-check_voltage(log7)
-check_voltage(log8)
-check_voltage(log9)
-check_voltage(log10)
+result = check_voltage(log1)
+print(result)
+result = check_voltage(log2)
+print(result)
+result = check_voltage(log3)
+print(result)
+result = check_voltage(log4)
+print(result)
+result = check_voltage(log5)
+print(result)
+result = check_voltage(log6)
+print(result)
+result = check_voltage(log7)
+print(result)
+result = check_voltage(log8)
+print(result)
+result = check_voltage(log9)
+print(result)
+result = check_voltage(log10)
+print(result)
+
+
