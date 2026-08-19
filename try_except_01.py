@@ -38,53 +38,37 @@ def parse_log(log, keywords):
             results[keyword.replace("=","")] = value
     return results
 
+def create_data(status, voltage, message):
+     data = {
+          "status": status,
+          "voltage": voltage,
+          "message": message
+     }
+     return data
+
 def check_voltage(log):
     try:
         results = parse_log(log, keywords)
         voltage = results["VOLTAGE"]
         if voltage == "":
-            data = {
-                "status": "FAIL",
-                "voltage": None,
-                "message": "电压数据为空"
-                    }
+            data = create_data("FAIL", None, "电压数据为空")
             return data
         else:
             voltage = int(voltage)
             if voltage > 240 or voltage < 200:
-                data = {
-                    "status": "FAIL",
-                    "voltage": voltage,
-                    "message": "电压异常"
-                        }
+                data = create_data("FAIL", voltage, "电压异常")                
                 return data
             else:
-                data = {
-                    "status": "PASS",
-                    "voltage": voltage,
-                    "message": "电压正常"
-                }
+                data = create_data("PASS", voltage, "电压正常") 
                 return data        
     except ValueError:
-                data = {
-                    "status": "FAIL",
-                    "voltage": None,
-                    "message": "电压格式错误"
-                }
+                data = create_data("FAIL", None, "电压格式错误") 
                 return data
     except KeyError:
-                data = {
-                    "status": "FAIL",
-                    "voltage": None,
-                    "message": "没有电压数据"
-                }        
+                data = create_data("FAIL", None, "没有电压数据")      
                 return data
     except Exception:
-                data = {
-                    "status": "FAIL",
-                    "voltage": None,
-                    "message": "出现其他日志解析错误"
-                        }
+                data = create_data("FAIL", None, "出现其他日志解析错误")
                 return data        
 
 result = check_voltage(log1)
