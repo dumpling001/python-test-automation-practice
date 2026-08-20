@@ -9,6 +9,8 @@ log8 = "TEST=POWER VOLTAGE=220"
 log9 = "TEST=POWER VOLTAGE=240"
 log10 = "TEST=POWER VOLTAGE=241"
 
+logs = [log1, log2, log3, log4, log5, log6, log7, log8, log9, log10]
+
 keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE="]
 
 def pick_next_position(keyword_position, keyword):
@@ -59,31 +61,35 @@ def check_voltage(log):
             else:
                 return create_data("PASS", voltage, "电压正常")       
     except ValueError:
-                return create_data("FAIL", None, "电压格式错误") 
+        return create_data("FAIL", None, "电压格式错误") 
     except KeyError:
-                return create_data("FAIL", None, "没有电压数据")      
+        return create_data("FAIL", None, "没有电压数据")      
     except Exception:
-                return create_data("FAIL", None, "出现其他日志解析错误")
+        return create_data("FAIL", None, "出现其他日志解析错误")
 
-result = check_voltage(log1)
-print(result)
-result = check_voltage(log2)
-print(result)
-result = check_voltage(log3)
-print(result)
-result = check_voltage(log4)
-print(result)
-result = check_voltage(log5)
-print(result)
-result = check_voltage(log6)
-print(result)
-result = check_voltage(log7)
-print(result)
-result = check_voltage(log8)
-print(result)
-result = check_voltage(log9)
-print(result)
-result = check_voltage(log10)
-print(result)
+total = len(logs)
+datas = []
+for log in logs:
+    datas.append(check_voltage(log))
+
+PASS_count = 0
+FAIL_count = 0
+PASS_percent = 0
+FAIL_percent = 0
+
+for data in datas:
+    if data["status"] == "PASS":
+        PASS_count += 1
+    elif data["status"] == "FAIL":
+        FAIL_count += 1
 
 
+if total !=0:
+    PASS_percent = PASS_count/total*100
+    FAIL_percent = FAIL_count/total*100
+
+print("总测试数: " + str(total))
+print("PASS: " + str(PASS_count))
+print("FAIL: " + str(FAIL_count))
+print("PASS百分比：" + str(PASS_percent) + "%")
+print("FAIL百分比：" + str(FAIL_percent) + "%")
