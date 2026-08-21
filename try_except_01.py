@@ -68,28 +68,28 @@ def check_voltage(log):
         return create_data("FAIL", None, "出现其他日志解析错误")
 
 total = len(logs)
-datas = []
+fail_data = []
+pass_count = 0
+fail_count = 0
+pass_percent = 0
+fail_percent = 0
+
+
 for log in logs:
-    datas.append(check_voltage(log))
-
-PASS_count = 0
-FAIL_count = 0
-PASS_percent = 0
-FAIL_percent = 0
-
-for data in datas:
+    #datas.append(check_voltage(log))
+    data = check_voltage(log)
     if data["status"] == "PASS":
-        PASS_count += 1
+        pass_count += 1
     elif data["status"] == "FAIL":
-        FAIL_count += 1
-
+        fail_data.append(data)
+        fail_count += 1
 
 if total !=0:
-    PASS_percent = PASS_count/total*100
-    FAIL_percent = FAIL_count/total*100
+    pass_percent = pass_count/total*100
+    fail_percent = fail_count/total*100
 
 print("总测试数: " + str(total))
-print("PASS: " + str(PASS_count))
-print("FAIL: " + str(FAIL_count))
-print("PASS百分比：" + str(PASS_percent) + "%")
-print("FAIL百分比：" + str(FAIL_percent) + "%")
+print("PASS: " + str(pass_count))
+print("FAIL: " + str(fail_count))
+print("PASS百分比：" + str(pass_percent) + "%")
+print("FAIL百分比：" + str(fail_percent) + "%")
