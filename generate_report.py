@@ -68,24 +68,25 @@ def check_voltage(log):
         return create_data("FAIL", None, "出现其他日志解析错误")
 
 def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas):
-    s1 = "========== 电压测试报告 ==========" + "\n" + "\n"
-    s2 = "测试总数: " + str(total) + "\n" + "\n"
-    s3 = "PASS数量: " + str(pass_count) + "\n"
-    s4 = "FAIL数量: " + str(fail_count) + "\n" + "\n"
-    s5 = "通过率: " + str(pass_percent) + "%" + "\n"
-    s6 = "失败率: " + str(fail_percent) + "%"+ "\n" + "\n"
-    s7 = "失败详情：" + "\n"
+    report = ""
+    report += "========== 电压测试报告 ==========" + "\n" + "\n"
+    report += "测试总数: " + str(total) + "\n" + "\n"
+    report += "PASS数量: " + str(pass_count) + "\n"
+    report += "FAIL数量: " + str(fail_count) + "\n" + "\n"
+    report += "通过率: " + str(pass_percent) + "%" + "\n"
+    report += "失败率: " + str(fail_percent) + "%"+ "\n" + "\n"
+    report += "失败详情：" + "\n"
     fail_number = 0
 
     for data in fail_datas:
         fail_number += 1
-        if data["voltage"] == None:
-            s7 += str(fail_number) + ". " + data["message"] + "\n"
+        if data["voltage"] is None:
+            report += str(fail_number) + ". " + data["message"] + "\n"
         else:
-            s7 += str(fail_number) + ". " + data["message"] + "(" + str(data["voltage"])+ ")"  + "\n"
+            report += str(fail_number) + ". " + data["message"] + "(" + str(data["voltage"])+ ")"  + "\n"
 
-    s8 = "\n" + "================================"
-    return s1+s2+s3+s4+s5+s6+s7+s8
+    report += "\n" + "================================"
+    return report
 
 total = len(logs)
 fail_datas = []
