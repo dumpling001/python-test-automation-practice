@@ -90,10 +90,11 @@ def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, f
 
 def save_report(report):
     try:
-        with open("Voltage_test_report.txt", "w") as f:
+        with open("D:/Voltage_test_report.txt", "w") as f:
             f.write(report)
-    except Exception:
-        print("保存失败")
+    except FileNotFoundError as e:
+        print(e)
+    
 
 
 total = len(logs)
