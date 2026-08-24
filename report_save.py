@@ -88,13 +88,15 @@ def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, f
     report += "\n" + "================================"
     return report
 
-def save_report(report):
+def save_report(report):  
     try:
-        with open("D:/Voltage_test_report.txt", "w") as f:
+        #with open("D:/Voltage_test_report.txt", "w") as f:
+        with open("Voltage_test_report.txt", "w") as f:
             f.write(report)
     except FileNotFoundError as e:
-        print(e)
-    
+        print("文件路径没找到: " + str(e))
+    except TypeError as e:
+        print("类型错误： " + str(e))
 
 
 total = len(logs)
@@ -120,4 +122,6 @@ if total !=0:
 
 
 report = generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas)
-save_report(report)
+save_report(123)
+print("测试程序继续执行")
+#save_report(report)
