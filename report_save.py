@@ -137,4 +137,8 @@ report = generate_report(total, pass_count, fail_count, pass_percent, fail_perce
 #save_report(123)
 #print("测试程序继续执行")
 result = save_report(report)
-print(result["status"], result["message"])
+if result["status"] == "PASS":
+    print("测试报告保存成功")
+elif result["status"] == "FAIL":
+    print("测试报告保存失败，但测试已经完成")
+    print(result["message"])
