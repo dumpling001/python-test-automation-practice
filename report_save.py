@@ -40,32 +40,38 @@ def parse_log(log, keywords):
             results[keyword.replace("=","")] = value
     return results
 
-def create_data(status, voltage, message):
-     data = {
-          "status": status,
-          "voltage": voltage,
-          "message": message
-     }
-     return data
+def create_data(status, message, voltage=None, include_voltage=False):
+    if voltage is None and not include_voltage:
+        data = {
+             "status": status,
+             "message": message
+         }
+    else:
+        data = {
+            "status": status,
+            "voltage": voltage,
+            "message": message
+        }
+    return data
 
 def check_voltage(log):
     try:
         results = parse_log(log, keywords)
         voltage = results["VOLTAGE"]
         if voltage == "":
-            return create_data("FAIL", None, "电压数据为空")
+            return create_data("FAIL", "电压数据为空", None, True)
         else:
             voltage = int(voltage)
             if voltage > 240 or voltage < 200:
-                return create_data("FAIL", voltage, "电压异常")                
+                return create_data("FAIL", "电压异常", voltage, True)            
             else:
-                return create_data("PASS", voltage, "电压正常")       
+                return create_data("PASS", "电压正常", voltage, True)    
     except ValueError:
-        return create_data("FAIL", None, "电压格式错误") 
+        return create_data("FAIL", "电压格式错误", None, True) 
     except KeyError:
-        return create_data("FAIL", None, "没有电压数据")      
+        return create_data("FAIL", "没有电压数据", None, True)      
     except Exception:
-        return create_data("FAIL", None, "出现其他日志解析错误")
+        return create_data("FAIL", "出现其他日志解析错误", None, True)
 
 def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas):
     report = ""
@@ -93,23 +99,14 @@ def save_report(report):
         #with open("D:/Voltage_test_report.txt", "w") as f:
         with open("Voltage_test_report.txt", "w") as f:
             f.write(report)
-            result = {
-                    "status": "PASS",
-                    "message": "测试报告保存成功"
-                }
-            return result
-    except FileNotFoundError as e:
-        result = {
-            "status": "FAIL", 
-            "message": "文件路径没找到"
-            }
-        return result
-    except TypeError as e:
-         result = {
-            "status": "FAIL", 
-            "message": "报告数据类型错误"
-            }
-         return result
+            return create_data("PASS", "测试报告保存成功", None, False)
+    except FileNotFoundError:
+        return create_data("FAIL", "文件路径没找到", None, False)
+    except TypeError:
+        return create_data("FAIL", "报告数据类型错误", None, False)
+
+# print(create_data("PASS", "保存成功"))
+# print(create_data("PASS", "电压正常", 220))
 
 total = len(logs)
 fail_datas = []
