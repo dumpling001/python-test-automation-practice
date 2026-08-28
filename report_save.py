@@ -41,7 +41,7 @@ def parse_log(log, keywords):
     return results
 
 def create_data(status, message, voltage=None, include_voltage=False):
-    if voltage is None and not include_voltage:
+    if not include_voltage:
         data = {
              "status": status,
              "message": message
