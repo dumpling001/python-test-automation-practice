@@ -100,10 +100,11 @@ def save_report(report):
         return create_data("FAIL", "报告数据类型错误")
 
 def get_voltage(result):
-    if result.get("data") is None:
+    data = result.get("data")
+    if data is None:
         return None
-    else:
-        return result.get("data").get("voltage")
+    
+    return data.get("voltage")
 
 # print(create_data("PASS", "保存成功"))
 # print(create_data("PASS", "电压正常", 220))
