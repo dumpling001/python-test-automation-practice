@@ -1,15 +1,23 @@
-log1 = "TEST=POWER"
-log2 = "TEST=POWER VOLTAGE=220"
-log3 = "TEST=POWER VOLTAGE=220V"
-log4 = "TEST=POWER VOLTAGE="
-log5 = "TEST=POWER VOLTAGE=abc"
-log6 = "TEST=POWER VOLTAGE=199"
-log7 = "TEST=POWER VOLTAGE=200"
-log8 = "TEST=POWER VOLTAGE=220"
-log9 = "TEST=POWER VOLTAGE=240"
-log10 = "TEST=POWER VOLTAGE=241"
+# log1 = "TEST=POWER"
+# log2 = "TEST=POWER VOLTAGE=220"
+# log3 = "TEST=POWER VOLTAGE=220V"
+# log4 = "TEST=POWER VOLTAGE="
+# log5 = "TEST=POWER VOLTAGE=abc"
+# log6 = "TEST=POWER VOLTAGE=199"
+# log7 = "TEST=POWER VOLTAGE=200"
+# log8 = "TEST=POWER VOLTAGE=220"
+# log9 = "TEST=POWER VOLTAGE=240"
+# log10 = "TEST=POWER VOLTAGE=241"
 
-logs = [log1, log2, log3, log4, log5, log6, log7, log8, log9, log10]
+# logs = [log1, log2, log3, log4, log5, log6, log7, log8, log9, log10]
+
+log1 = "TEST=POWER VOLTAGE=220"
+log2 = "TEST=POWER VOLTAGE=199"
+log3 = "TEST=POWER VOLTAGE="
+log4 = "TEST=POWER VOLTAGE=abc"
+log5 = "TEST=POWER"
+
+logs = [log1, log2, log3, log4, log5]
 
 keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE="]
 
@@ -69,9 +77,11 @@ def check_voltage(log):
 
 
 def check_value(log, valuename, maxvalue, minvalue):
-    results = parse_log(log, keywords)
-    value = results[valuename]
-    try:    
+    try:
+        results = parse_log(log, keywords)
+        value = results[valuename]
+        if value == "":
+            return create_data("FAIL", valuename+"数据为空", {valuename.lower(): None})
         value = int(value)
         if value > maxvalue or value < minvalue:
             return create_data("FAIL", valuename+"异常", {valuename.lower(): value})
@@ -79,9 +89,13 @@ def check_value(log, valuename, maxvalue, minvalue):
             return create_data("PASS", valuename+"正常", {valuename.lower(): value})
     except ValueError:
         return create_data("FAIL", valuename+"格式错误", {valuename.lower(): None})
+    except KeyError:
+        return create_data("FAIL", valuename+"数据不存在", {valuename.lower(): None})
+    except Exception:
+        return create_data("FAIL", "出现其他日志解析错误", {valuename.lower(): None})
 
 result = check_value(
-    "TEST=POWER VOLTAGE=220",
+    log1,
     "VOLTAGE",
     240,
     200
@@ -89,13 +103,36 @@ result = check_value(
 print(result)
 
 result = check_value(
-    "TEST=POWER VOLTAGE=199",
+    log2,
     "VOLTAGE",
     240,
     200
 )
 print(result)
 
+result = check_value(
+    log3,
+    "VOLTAGE",
+    240,
+    200
+)
+print(result)
+
+result = check_value(
+    log4,
+    "VOLTAGE",
+    240,
+    200
+)
+print(result)
+
+result = check_value(
+    log5,
+    "VOLTAGE",
+    240,
+    200
+)
+print(result)
 
 
 def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas):
