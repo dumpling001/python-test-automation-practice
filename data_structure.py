@@ -71,11 +71,14 @@ def check_voltage(log):
 def check_value(log, valuename, maxvalue, minvalue):
     results = parse_log(log, keywords)
     value = results[valuename]
-    value = int(value)
-    if value > maxvalue or value < minvalue:
-        return create_data("FAIL", valuename+"异常", {valuename.lower(): value})
-    else:
-        return create_data("PASS", valuename+"正常", {valuename.lower(): value})
+    try:    
+        value = int(value)
+        if value > maxvalue or value < minvalue:
+            return create_data("FAIL", valuename+"异常", {valuename.lower(): value})
+        else:
+            return create_data("PASS", valuename+"正常", {valuename.lower(): value})
+    except ValueError:
+        return create_data("FAIL", valuename+"格式错误", {valuename.lower(): None})
 
 result = check_value(
     "TEST=POWER VOLTAGE=220",
