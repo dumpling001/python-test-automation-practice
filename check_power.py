@@ -1,5 +1,3 @@
-# value = None
-# value = int(value)
 log1 = "TEST=POWER VOLTAGE=220 CURRENT=5"
 log2 = "TEST=POWER VOLTAGE=199 CURRENT=5"
 log3 = "TEST=POWER VOLTAGE=220 CURRENT=0"

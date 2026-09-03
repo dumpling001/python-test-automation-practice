@@ -11,13 +11,18 @@
 
 # logs = [log1, log2, log3, log4, log5, log6, log7, log8, log9, log10]
 
-log1 = "TEST=POWER VOLTAGE=220"
-log2 = "TEST=POWER VOLTAGE=199"
-log3 = "TEST=POWER VOLTAGE="
-log4 = "TEST=POWER VOLTAGE=abc"
-log5 = "TEST=POWER"
+# log1 = "TEST=POWER VOLTAGE=220"
+# log2 = "TEST=POWER VOLTAGE=199"
+# log3 = "TEST=POWER VOLTAGE="
+# log4 = "TEST=POWER VOLTAGE=abc"
+# log5 = "TEST=POWER"
 
-logs = [log1, log2, log3, log4, log5]
+log1 = "TEST=POWER VOLTAGE=220 CURRENT=5"
+log2 = "TEST=POWER VOLTAGE=199 CURRENT=5"
+log3 = "TEST=POWER VOLTAGE=220 CURRENT=0"
+log4 = "TEST=POWER VOLTAGE=199 CURRENT=0"
+
+logs = [log1, log2, log3, log4]
 
 #keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE="]
 keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE=", "CURRENT="]
@@ -96,8 +101,8 @@ def check_value(log, valuename, maxvalue, minvalue):
     except Exception:
         return create_data("FAIL", "出现其他日志解析错误", {valuename.lower(): None})
 
-print(check_value("TEST=POWER CURRENT=5", "CURRENT", 10, 1))
-print(check_value("TEST=POWER CURRENT=0", "CURRENT", 10, 1))
+# print(check_value("TEST=POWER CURRENT=5", "CURRENT", 10, 1))
+# print(check_value("TEST=POWER CURRENT=0", "CURRENT", 10, 1))
 
 # result = check_value(
 #     log1,
@@ -138,6 +143,18 @@ print(check_value("TEST=POWER CURRENT=0", "CURRENT", 10, 1))
 #     200
 # )
 # print(result)
+
+def check_power(log):
+    power_result = {}
+    voltage_result = check_value(log, "VOLTAGE", 240, 200)
+    current_result = check_value(log, "CURRENT", 10 , 1)
+    power_result["message"] = voltage_result["message"] + ", " + current_result["message"]
+    power_result["data"] = voltage_result["data"] | current_result["data"]
+    if voltage_result["status"] == "PASS" and current_result["status"] == "PASS":
+        power_result["status"] = "PASS"
+    else:
+        power_result["status"] = "FAIL"
+    return power_result
 
 
 def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas):
@@ -182,34 +199,36 @@ def get_voltage(result):
 # print(create_data("PASS", "保存成功"))
 # print(create_data("PASS", "电压正常", 220))
 
-# total = len(logs)
-# fail_datas = []
-# pass_count = 0
-# fail_count = 0
-# pass_percent = 0
-# fail_percent = 0
+total = len(logs)
+fail_datas = []
+pass_count = 0
+fail_count = 0
+pass_percent = 0
+fail_percent = 0
 
 
-# for log in logs:
-#     #datas.append(check_voltage(log))
-#     data = check_voltage(log)
-#     if data["status"] == "PASS":
-#         pass_count += 1
-#     elif data["status"] == "FAIL":
-#         fail_datas.append(data)
-#         fail_count += 1
+for log in logs:
+    #datas.append(check_voltage(log))
+    #data = check_voltage(log)
+    data = check_power(log)
+    print(data)
+    if data["status"] == "PASS":
+        pass_count += 1
+    elif data["status"] == "FAIL":
+        fail_datas.append(data)
+        fail_count += 1
 
-# if total !=0:
-#     pass_percent = pass_count/total*100
-#     fail_percent = fail_count/total*100
+if total !=0:
+    pass_percent = pass_count/total*100
+    fail_percent = fail_count/total*100
 
 
-# report = generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas)
-# #save_report(123)
-# #print("测试程序继续执行")
-# result = save_report(report)
-# if result["status"] == "PASS":
-#     print("测试报告保存成功")
-# elif result["status"] == "FAIL":
-#     print("测试报告保存失败，但测试已经完成")
-#     print(result["message"])
+report = generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas)
+#save_report(123)
+#print("测试程序继续执行")
+result = save_report(report)
+if result["status"] == "PASS":
+    print("测试报告保存成功")
+elif result["status"] == "FAIL":
+    print("测试报告保存失败，但测试已经完成")
+    print(result["message"])
