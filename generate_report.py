@@ -11,28 +11,12 @@ def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, f
 
     for data in fail_datas:
         fail_number += 1
-        if data.get("data").get("voltage") is None and data.get("data").get("current") is None:
-            report += str(fail_number) + ". " + data.get("message") + "\n"
-        elif data.get("data").get("voltage") is None:
-            report += str(fail_number) + ". " 
-            + data.get("message").split(',')[0]
-            + data.get("message").split(',')[1:]
-            + "(" + str(data.get("data").get("current")) + ")" 
-            + "\n"
-        elif data.get("data").get("current") is None:
-            report += str(fail_number) + ". " 
-            + data.get("message").split(',')[0] 
-            + "(" + str(data.get("data").get("voltage")) + ")"
-            + data.get("message").split(',')[1:]
-            +  "\n"
+        voltage = data.get("data").get("voltage")
+        current = data.get("data").get("current")
 
-        else:
-            report += str(fail_number) + ". "
-            + data.get("message").split(',')[0] 
-            + "(" + str(data.get("data").get("voltage") ) + ")"
-            + data.get("message").split(',')[1:] 
-            + "(" + str(data.get("data").get("current") ) + ")"
-            + "\n"
+        print(data.get("message"))
+        print(voltage)
+        print(current)
 
     report += "\n" + "================================"
     return report
