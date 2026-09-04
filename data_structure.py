@@ -159,7 +159,7 @@ def check_power(log):
 
 def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas):
     report = ""
-    report += "========== 电压测试报告 ==========" + "\n" + "\n"
+    report += "========== 测试报告 ==========" + "\n" + "\n"
     report += "测试总数: " + str(total) + "\n" + "\n"
     report += "PASS数量: " + str(pass_count) + "\n"
     report += "FAIL数量: " + str(fail_count) + "\n" + "\n"
@@ -170,10 +170,12 @@ def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, f
 
     for data in fail_datas:
         fail_number += 1
-        if data.get("data").get("voltage") is None:
-            report += str(fail_number) + ". " + data.get("message") + "\n"
-        else:
-            report += str(fail_number) + ". " + data.get("message") + "(" + str(data.get("data").get("voltage") )+ ")"  + "\n"
+        voltage = data.get("data").get("voltage")
+        current = data.get("data").get("current")
+
+        print(data.get("message"))
+        print(voltage)
+        print(current)
 
     report += "\n" + "================================"
     return report
@@ -181,7 +183,7 @@ def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, f
 def save_report(report):  
     try:
         #with open("D:/Voltage_test_report.txt", "w") as f:
-        with open("Voltage_test_report.txt", "w") as f:
+        with open("Test_report.txt", "w") as f:
             f.write(report)
             return create_data("PASS", "测试报告保存成功")
     except FileNotFoundError:
