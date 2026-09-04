@@ -173,9 +173,12 @@ def generate_report(total, pass_count, fail_count, pass_percent, fail_percent, f
         voltage = data.get("data").get("voltage")
         current = data.get("data").get("current")
 
-        print(data.get("message"))
-        print(voltage)
-        print(current)
+        # print(data.get("message"))
+        # print(voltage)
+        # print(current)
+        part0 = data.get("message").split(",")[0]
+        part1 = data.get("message").split(",")[1]
+        report += part0 + "(" + str(voltage) + ")" + "," + part1 + "(" + str(current) + ")" + "\n"
 
     report += "\n" + "================================"
     return report

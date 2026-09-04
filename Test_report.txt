@@ -9,5 +9,8 @@ FAIL数量: 3
 失败率: 75.0%
 
 失败详情：
+VOLTAGE异常(199), CURRENT正常(5)
+VOLTAGE正常(220), CURRENT异常(0)
+VOLTAGE异常(199), CURRENT异常(0)
 
 ================================
