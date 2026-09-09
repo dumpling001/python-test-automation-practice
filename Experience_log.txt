@@ -50,3 +50,66 @@ except Exception:
 它表示：捕获大多数普通运行时异常。
 
 》在真实测试日志里：字段不存在 和 字段存在但数据为空 是两种不同的数据异常。
+
+******************************************************************************************
+
+2026-9-9 11:12
+
+../../../anaconda2/lib/python2.7/site-packages/_pytest/python.py:403: in _importtestmodule
+    mod = self.fspath.pyimport(ensuresyspath=importmode)
+../../../anaconda2/lib/python2.7/site-packages/py/_path/local.py:668: in pyimport
+    __import__(modname)
+../../../anaconda2/lib/python2.7/site-packages/_pytest/assertion/rewrite.py:213: in load_module
+    py.builtin.exec_(co, mod.__dict__)
+test_power.py:1: in <module>
+    from data_structure import check_value
+E     File "/Users/xxx/Desktop/Python_test/pytest_practice/data_structure.py", line 71
+E   SyntaxError: Non-ASCII character '\xe7' in file /Users/xxx/Desktop/Python_test/pytest_practice/data_structure.py on line 71, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 errors during collection !!!!!!!!!!!!!!!!!!!!
+=========================== 1 error in 0.35 seconds ==========
+
+说明：很好，这个报错其实非常有价值——不是你的 pytest 写错了，而是我们第一次碰到了 Python 版本问题。
+
+你这段报错里最关键的是：
+
+SyntaxError: Non-ASCII character '\xe7' ...
+but no encoding declared
+
+再结合：_anaconda2/lib/python2.7/
+
+可以确定：你现在运行的 pytest 是 Python 2.7 环境。而你的 data_structure.py 里有中文，例如：
+
+"电压正常"
+"测试报告保存成功"
+
+Python 2 默认不接受这样的中文源码，除非文件顶部声明编码。
+
+*******
+
+python --version   ——   Python 3.12.0rc3
+pytest --version   ——   This is pytest version 3.3.2, imported from /Users/xxx/anaconda2/lib/python2.7/site-packages/pytest.pyc
+
+python --version
+→ Python 3.12.0rc3
+
+说明你的 python 是 Python 3。
+
+但是：
+
+pytest --version
+→ pytest 3.3.2
+→ /anaconda2/lib/python2.7/...
+
+说明你的 pytest 命令却是老的 Python 2.7 环境里的 pytest。
+
+****
+
+python3 -m pytest --version
+/usr/local/bin/python3.12: No module named pytest
+Python 3.12 有了，但 pytest 还没安装到 Python 3.12 这个环境。
+
+***
+
+python3 -m pip install pytest
+安装成功后后，python3 -m pytest --version输出pytest 9.1.1
+再运行python3 -m pytest就正常了。
