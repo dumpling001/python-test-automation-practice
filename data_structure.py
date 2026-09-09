@@ -21,8 +21,9 @@ log1 = "TEST=POWER VOLTAGE=220 CURRENT=5"
 log2 = "TEST=POWER VOLTAGE=199 CURRENT=5"
 log3 = "TEST=POWER VOLTAGE=220 CURRENT=0"
 log4 = "TEST=POWER VOLTAGE=199 CURRENT=0"
+log5 = "TEST=POWER"
 
-logs = [log1, log2, log3, log4]
+logs = [log1, log2, log3, log4, log5]
 
 #keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE="]
 keywords = ["TEST=", "RESULT=", "ERROR=", "VOLTAGE=", "CURRENT="]
