@@ -202,39 +202,39 @@ def get_voltage(result):
     
     return data.get("voltage")
 
-# print(create_data("PASS", "保存成功"))
-# print(create_data("PASS", "电压正常", 220))
+# # print(create_data("PASS", "保存成功"))
+# # print(create_data("PASS", "电压正常", 220))
 
-total = len(logs)
-fail_datas = []
-pass_count = 0
-fail_count = 0
-pass_percent = 0
-fail_percent = 0
-
-
-for log in logs:
-    #datas.append(check_voltage(log))
-    #data = check_voltage(log)
-    data = check_power(log)
-    print(data)
-    if data["status"] == "PASS":
-        pass_count += 1
-    elif data["status"] == "FAIL":
-        fail_datas.append(data)
-        fail_count += 1
-
-if total !=0:
-    pass_percent = pass_count/total*100
-    fail_percent = fail_count/total*100
+# total = len(logs)
+# fail_datas = []
+# pass_count = 0
+# fail_count = 0
+# pass_percent = 0
+# fail_percent = 0
 
 
-report = generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas)
-#save_report(123)
-#print("测试程序继续执行")
-result = save_report(report)
-if result["status"] == "PASS":
-    print("测试报告保存成功")
-elif result["status"] == "FAIL":
-    print("测试报告保存失败，但测试已经完成")
-    print(result["message"])
+# for log in logs:
+#     #datas.append(check_voltage(log))
+#     #data = check_voltage(log)
+#     data = check_power(log)
+#     print(data)
+#     if data["status"] == "PASS":
+#         pass_count += 1
+#     elif data["status"] == "FAIL":
+#         fail_datas.append(data)
+#         fail_count += 1
+
+# if total !=0:
+#     pass_percent = pass_count/total*100
+#     fail_percent = fail_count/total*100
+
+
+# report = generate_report(total, pass_count, fail_count, pass_percent, fail_percent, fail_datas)
+# #save_report(123)
+# #print("测试程序继续执行")
+# result = save_report(report)
+# if result["status"] == "PASS":
+#     print("测试报告保存成功")
+# elif result["status"] == "FAIL":
+#     print("测试报告保存失败，但测试已经完成")
+#     print(result["message"])

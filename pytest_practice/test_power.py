@@ -10,3 +10,73 @@ def test_voltage_normal():
 
     assert result["status"] == "PASS"
     #assert result["status"] == "FAIL"
+
+def test_voltage_low():
+    result = check_value(
+        "TEST=POWER VOLTAGE=199 CURRENT=5",
+        "VOLTAGE",
+        240,
+        200
+    )
+
+    assert result["status"] == "FAIL"
+
+def test_voltage_min():
+    result = check_value(
+        "TEST=POWER VOLTAGE=200 CURRENT=5",
+        "VOLTAGE",
+        240,
+        200
+    )
+
+    assert result["status"] == "PASS"
+
+def test_voltage_max():
+    result = check_value(
+        "TEST=POWER VOLTAGE=240 CURRENT=5",
+        "VOLTAGE",
+        240,
+        200
+    )
+
+    assert result["status"] == "PASS"
+
+def test_voltage_high():
+    result = check_value(
+        "TEST=POWER VOLTAGE=241 CURRENT=5",
+        "VOLTAGE",
+        240,
+        200
+    )
+
+    assert result["status"] == "FAIL"
+
+def test_voltage_empty():
+    result = check_value(
+        "TEST=POWER VOLTAGE=",
+        "VOLTAGE",
+        240,
+        200
+    )
+
+    assert result["status"] == "FAIL"
+
+def test_voltage_invalid_format():
+    result = check_value(
+        "TEST=POWER VOLTAGE=abc",
+        "VOLTAGE",
+        240,
+        200
+    )
+
+    assert result["status"] == "FAIL"
+
+def test_voltage_missing():
+    result = check_value(
+        "TEST=POWER",
+        "VOLTAGE",
+        240,
+        200        
+    )
+
+    assert result["status"] == "FAIL"
