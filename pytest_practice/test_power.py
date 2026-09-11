@@ -9,20 +9,45 @@ import pytest
         ("TEST=POWER VOLTAGE=200 CURRENT=5", "PASS"),
         ("TEST=POWER VOLTAGE=240 CURRENT=5", "PASS"),
         ("TEST=POWER VOLTAGE=241 CURRENT=5", "FAIL"),
+    ]
+)
+
+def test_voltage_normal(log, expected):
+    result = check_value(
+        log,
+        "VOLTAGE",
+        240,
+        200
+    )
+    assert result["status"] == expected
+    
+
+@pytest.mark.parametrize(
+    "log, expected",
+    [
         ("TEST=POWER VOLTAGE=", "FAIL"),
         ("TEST=POWER VOLTAGE=abc", "FAIL"),
         ("TEST=POWER", "FAIL"),
     ]
 )
 
-def test_voltage(log, expected):
+def test_voltage_invalid(log, expected):
     result = check_value(
-        log,
+        log, 
         "VOLTAGE",
         240,
         200
-        )
+    )
     assert result["status"] == expected
+
+# def test_voltage(log, expected):
+#     result = check_value(
+#         log,
+#         "VOLTAGE",
+#         240,
+#         200
+#         )
+#     assert result["status"] == expected
 
 # def test_voltage_normal():
 #     result = check_value(
