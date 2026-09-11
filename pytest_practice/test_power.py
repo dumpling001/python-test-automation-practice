@@ -1,6 +1,10 @@
 from data_structure import check_value
 import pytest
 
+@pytest.fixture
+def voltage_range():
+    return 240, 200
+
 @pytest.mark.parametrize(
     "log, expected",
     [
@@ -20,12 +24,14 @@ import pytest
     ]
 )
 
-def test_voltage_normal(log, expected):
+def test_voltage_normal(log, expected, voltage_range):
     result = check_value(
         log,
         "VOLTAGE",
-        240,
-        200
+        voltage_range[0],
+        voltage_range[1]
+        # 999,
+        # 888
     )
     assert result["status"] == expected
     
