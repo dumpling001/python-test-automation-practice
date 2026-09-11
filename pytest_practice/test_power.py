@@ -9,6 +9,14 @@ import pytest
         ("TEST=POWER VOLTAGE=200 CURRENT=5", "PASS"),
         ("TEST=POWER VOLTAGE=240 CURRENT=5", "PASS"),
         ("TEST=POWER VOLTAGE=241 CURRENT=5", "FAIL"),
+        #("TEST=POWER VOLTAGE=241 CURRENT=5", "PASS"),
+    ],
+    ids=[
+        "正常电压",
+        "低于下限",
+        "最低边界",
+        "最高边界",
+        "高于上限"
     ]
 )
 
