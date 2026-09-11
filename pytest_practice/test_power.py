@@ -42,15 +42,22 @@ def test_voltage_normal(log, expected, voltage_range):
         ("TEST=POWER VOLTAGE=", "FAIL"),
         ("TEST=POWER VOLTAGE=abc", "FAIL"),
         ("TEST=POWER", "FAIL"),
+    ],
+    ids=[
+        "no value",
+        "value is not int",
+        "no voltage item"
     ]
 )
 
-def test_voltage_invalid(log, expected):
+def test_voltage_invalid(log, expected, voltage_range):
     result = check_value(
         log, 
         "VOLTAGE",
-        240,
-        200
+        # 240,
+        # 200
+        voltage_range[0],
+        voltage_range[1]
     )
     assert result["status"] == expected
 
