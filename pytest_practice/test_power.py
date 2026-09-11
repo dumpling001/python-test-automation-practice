@@ -2,7 +2,8 @@ from data_structure import check_value
 import pytest
 
 @pytest.fixture
-def voltage_range():
+def test_data():
+    print("准备测试数据")
     # return 240, 200
     return {
         "max": 240,
@@ -28,12 +29,14 @@ def voltage_range():
     ]
 )
 
-def test_voltage_normal(log, expected, voltage_range):
+def test_voltage_normal(log, expected, test_data):
     result = check_value(
         log,
         "VOLTAGE",
-        voltage_range["max"],
-        voltage_range["min"]
+        test_data["max"],
+        test_data["min"]
+        # voltage_range["max"],
+        # voltage_range["min"]
         # voltage_range[0],
         # voltage_range[1]
         # 999,
@@ -56,7 +59,7 @@ def test_voltage_normal(log, expected, voltage_range):
     ]
 )
 
-def test_voltage_invalid(log, expected, voltage_range):
+def test_voltage_invalid(log, expected, test_data):
     result = check_value(
         log, 
         "VOLTAGE",
@@ -64,8 +67,10 @@ def test_voltage_invalid(log, expected, voltage_range):
         # 200
         # voltage_range[0],
         # voltage_range[1]
-        voltage_range["max"],
-        voltage_range["min"]
+        # voltage_range["max"],
+        # voltage_range["min"]
+        test_data["max"],
+        test_data["min"]
     )
     assert result["status"] == expected
 
