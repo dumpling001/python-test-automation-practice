@@ -3,7 +3,11 @@ import pytest
 
 @pytest.fixture
 def voltage_range():
-    return 240, 200
+    # return 240, 200
+    return {
+        "max": 240,
+        "min": 200
+    }
 
 @pytest.mark.parametrize(
     "log, expected",
@@ -28,8 +32,10 @@ def test_voltage_normal(log, expected, voltage_range):
     result = check_value(
         log,
         "VOLTAGE",
-        voltage_range[0],
-        voltage_range[1]
+        voltage_range["max"],
+        voltage_range["min"]
+        # voltage_range[0],
+        # voltage_range[1]
         # 999,
         # 888
     )
@@ -56,8 +62,10 @@ def test_voltage_invalid(log, expected, voltage_range):
         "VOLTAGE",
         # 240,
         # 200
-        voltage_range[0],
-        voltage_range[1]
+        # voltage_range[0],
+        # voltage_range[1]
+        voltage_range["max"],
+        voltage_range["min"]
     )
     assert result["status"] == expected
 
